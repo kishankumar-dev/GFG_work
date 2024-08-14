@@ -2,7 +2,6 @@
 
 class Solution:
     def longestCommonSubstr(self, str1, str2):
-        # code here
         n, m = len(str1), len(str2)
         lo, hi = 0, min(n, m)+1
         
