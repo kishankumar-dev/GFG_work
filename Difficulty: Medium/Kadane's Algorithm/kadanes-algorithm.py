@@ -4,15 +4,17 @@ class Solution:
     ##Complete this function
     #Function to find the sum of contiguous subarray with maximum sum.
     def maxSubArraySum(self,arr):
-        ##Your code here 
-        running, s = 0, float('-inf')
-        for e in arr:
-            running += e
-            s = max(s, running)
-            running = max(running, 0)
+        ##Your code here
+        n = len(arr)
+        res = 0
+        max_val = arr[0]
+        for i in range (0,n):
+            res = res+arr[i]
+            max_val = max(res,max_val)
             
-        return s
-
+            if res<0:
+                res =0  
+        return max_val
 
 #{ 
  # Driver Code Starts
