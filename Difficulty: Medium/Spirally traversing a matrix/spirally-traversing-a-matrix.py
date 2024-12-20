@@ -1,21 +1,28 @@
 class Solution:
     # Function to return a list of integers denoting spiral traversal of matrix.
-    def spirallyTraverse(self, matrix):
+    def spirallyTraverse(self, mat):
         # code here
-        m = len(matrix)
-        n = len(matrix[0])
-        k = 2 * min(m, n)
-        dx = [0, 1, 0, -1]
-        dy = [1, 0, -1, 0]
-        x, y = 0, -1
-        res = []
-        for d in range(k):
-            for i in range(n):
-                x += dx[d % 4]
-                y += dy[d % 4]
-                res.append(matrix[x][y])
-            m, n = n, m - 1
-        return res
+        n = len(matrix)
+        m = len(matrix[0])
+        up, left = 0, 0
+        right, down = m - 1, n - 1
+        ans = []
+        while left <= right and up <= down:
+            for i in range(left, right + 1):
+                ans.append(matrix[up][i])
+            up += 1
+            for i in range(up, down + 1):
+                ans.append(matrix[i][right])
+            right -= 1
+            if up <= down:
+                for i in range(right, left - 1, -1):
+                    ans.append(matrix[down][i])
+                down -= 1
+            if left <= right:
+                for i in range(down, up - 1, -1):
+                    ans.append(matrix[i][left])
+                left += 1
+        return ans
 
 #{ 
  # Driver Code Starts
@@ -39,5 +46,6 @@ if __name__ == "__main__":
         solution = Solution()
         result = solution.spirallyTraverse(matrix)
         print(" ".join(map(str, result)))
+        print("~")
 
 # } Driver Code Ends
