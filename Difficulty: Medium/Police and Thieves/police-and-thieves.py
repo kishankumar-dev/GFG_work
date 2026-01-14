@@ -1,17 +1,29 @@
 class Solution:
     def catchThieves(self, arr, k):
-        #code  here
-        from collections import deque
-        caught_count = 0
-        police_q, thief_q = deque(), deque()
-        for i, a in enumerate(arr):
-            q_a, q_b = (police_q, thief_q) if a == "T" else (thief_q, police_q)
-            min_i = i - k
-            while q_a and q_a[0] < min_i:
-                q_a.popleft()
-            if q_a:
-                q_a.popleft()
-                caught_count += 1
+        #code here
+        if arr.count("P") == 0 or arr.count("T")== 0:
+            return 0
+        police = []
+        thief = []
+    
+        for i in range(len(arr)):
+            if arr[i] == 'P':
+                police.append(i)
             else:
-                q_b.append(i)
-        return caught_count
+                thief.append(i)
+        
+        i = j = 0
+        caught = 0
+        
+        while i < len(police) and j < len(thief):
+            if abs(police[i] - thief[j]) <= k:
+                caught += 1
+                i += 1
+                j += 1
+            elif police[i] < thief[j]:
+                i += 1
+            else:
+                j += 1
+        
+        return caught
+
