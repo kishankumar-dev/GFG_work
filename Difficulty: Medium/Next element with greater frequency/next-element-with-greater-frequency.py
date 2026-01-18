@@ -1,14 +1,12 @@
+from collections import Counter
 class Solution:
-    def findGreater(self, arr):
+    def nextFreqGreater(self, arr):
         # code here
-        from collections import Counter
-        n = len(arr)
-        ans = [-1]*n
-        cnt = Counter(arr)
-        stack = []
-        for i, e in enumerate(arr):
-            while stack and cnt[e] > cnt[arr[stack[-1]]]:
-                j = stack.pop()
-                ans[j] = arr[i]
-            stack.append(i)
-        return ans
+        cnt=Counter(arr)
+        ret=[-1]*len(arr)
+        stk=[]
+        for ix,ve in enumerate(arr):
+            while stk and cnt[arr[stk[-1]]]<cnt[ve]:
+                ret[stk.pop()]=ve
+            stk.append(ix)
+        return ret
