@@ -1,26 +1,14 @@
-#User function Template for python3
-
 class Solution:
-    def kokoEat(self,arr,k):
-        # Code here        
-        def calculate_hours_taken(s_speed):
-            total_hours = 0
-            for pile_size in arr:
-                total_hours += (pile_size + s_speed - 1) // s_speed
-            return total_hours
-
-        low = 1
-        high = max(arr)
-        ans = high
-
-        while low <= high:
-            mid = (low + high) // 2
-            hours = calculate_hours_taken(mid)
-
-            if hours <= k:
-                ans = mid
-                high = mid - 1
+    def kokoEat(self, arr, k):
+        # Code here
+        def ok(n):
+            return sum((e+n-1)//n for e in arr) <= k
+            
+        lo, hi = 1, max(arr)
+        while lo < hi:
+            mi = lo + (hi - lo) // 2 
+            if ok(mi):
+                hi = mi 
             else:
-                low = mid + 1
-
-        return ans
+                lo = mi+1
+        return lo
