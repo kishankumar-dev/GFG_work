@@ -1,20 +1,19 @@
+from functools import cache
 class Solution:
     def minCost(self, heights, cost):
-        # code here        
-        def compute_cost(h):
-            r = 0
-            for i in range(len(heights)):
-                r += cost[i] * abs(heights[i] - h)
-            return r
-            
-        lo, hi = min(heights), max(heights)
-        while hi - lo > 2:
-            m1 = lo + (hi-lo)//3
-            m2 = hi - (hi-lo)//3
-            c1, c2 = compute_cost(m1), compute_cost(m2)
-            if c1 > c2:
-                lo = m1
-            else:
-                hi = m2
         
-        return min(compute_cost(h) for h in range(lo, hi + 1))
+        l, r = min(heights), max(heights)
+        
+        @cache
+        def f(H):
+            return sum(abs(h - H) * c for h, c in zip(heights, cost))
+        
+        while l < r:
+            m = l + (r - l)//2
+            
+            if f(m+1) < f(m): # graph shape ~ \/ , find minima
+                l = m+1
+            else:
+                r = m
+        
+        return f(l)
