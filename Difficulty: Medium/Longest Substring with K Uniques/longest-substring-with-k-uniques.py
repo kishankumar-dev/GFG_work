@@ -1,17 +1,18 @@
 class Solution:
     def longestKSubstr(self, s, k):
         # code here
-        d = dict()
-        start = ans = 0
-        for i in range(len(s)):
-            d[s[i]] = d.get(s[i], 0) + 1
-            
-            while len(d) > k:
-                d[s[start]] -= 1
-                if d[s[start]] == 0:
-                    del d[s[start]]
-                start += 1
-            if len(d) == k:
-                ans = max(ans, i - start + 1)
-        return ans if ans > 0 else -1
+        mx=-1
+        from collections import Counter
+        cnt=Counter()
+        left=0
+        for right,ve in enumerate(s):
+            cnt[ve]+=1
+            while len(cnt)>k:
+                cnt[s[left]]-=1
+                if cnt[s[left]]==0:
+                    del cnt[s[left]]
+                left+=1
+            if len(cnt)==k:
+                mx=max(mx,right-left+1)
+        return mx
         
