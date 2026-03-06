@@ -1,31 +1,40 @@
+from collections import Counter
 class Solution:
-    def smallestWindow(self, s, p):
+    def minWindow(self, s, p):
         # code here
-        n = len(s)
-        freqs = [0] * (ord("z") + 1)
-        unique_count = 0
-        for c in p:
-            ci = ord(c)
-            if freqs[ci] == 0:
-                unique_count += 1
-            freqs[ci] -= 1
-        for end in range(n):
-            ci = ord(s[end])
-            freqs[ci] += 1
-            if freqs[ci] == 0:
-                unique_count -= 1
-                if unique_count == 0:
-                    break
-        else:
+        if len(p) > len(s):
             return ""
-        freqs[ord(s[end])] -= 1
-        start = min_start = 0
-        min_end, min_len = n - 1, n
-        for end in range(end, n):
-            freqs[ord(s[end])] += 1
-            while freqs[c_i := ord(s[start])]:
-                freqs[c_i] -= 1
-                start += 1
-            if (l := end - start + 1) < min_len:
-                min_start, min_end, min_len = start, end, l
-        return s[min_start:min_end + 1]
+
+        p_count = Counter(p)
+        window = {}
+        
+        have = 0
+        need = len(p_count)
+    
+        res = [-1, -1]
+        min_len = float("inf")
+    
+        left = 0
+    
+        for right in range(len(s)):
+            char = s[right]
+            window[char] = window.get(char, 0) + 1
+    
+            if char in p_count and window[char] == p_count[char]:
+                have += 1
+    
+            while have == need:
+                
+                if (right - left + 1) < min_len:
+                    res = [left, right]
+                    min_len = right - left + 1
+    
+                window[s[left]] -= 1
+    
+                if s[left] in p_count and window[s[left]] < p_count[s[left]]:
+                    have -= 1
+    
+                left += 1
+    
+        l, r = res
+        return s[l:r+1] if min_len != float("inf") else ""
