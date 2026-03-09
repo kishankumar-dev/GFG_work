@@ -1,21 +1,16 @@
 class Solution:
     def largestSwap(self, s):
         #code here
-        swap = [0] * len(s)
-        greater = len(s) - 1
-        swap[-1] = greater
-        for i in range(len(s)-2, -1, -1):
-            if int(s[i]) > int(s[greater]):
-                greater = i
-                
-            swap[i] = greater
-        
-        res = list(s)
-        for i in range(len(s)):
-            if int(s[i]) == int(s[swap[i]]):
-                continue
-            
-            res[i], res[swap[i]] = res[swap[i]], res[i]
-            break
-        
-        return ''.join(res)
+        s=list(s)
+        n=len(s)
+        max_ind=n-1
+        l=r=-1
+        for i in range(n-1,-1,-1):
+            if s[i]>s[max_ind]:
+                max_ind=i
+            elif s[i]<s[max_ind]:
+                l=i
+                r=max_ind
+        if l!=-1:
+            s[l],s[r]=s[r],s[l]
+        return "".join(s)
